@@ -5,7 +5,7 @@ import {BoardState, Cage, SolveResponse} from '../shared/models/kenken';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private baseUrl = 'http://localhost:8000'; // backend en Python/Flask
+  private baseUrl = 'https://backend-topicos-kenken.onrender.com'; // backend en Python/Flask
 
   constructor(private http: HttpClient) {}
 
