@@ -1,0 +1,9 @@
+<div
+  class="flex h-10 w-10 items-center justify-center border text-lg cursor-pointer
+  transition-colors duration-150 hover:bg-blue-50"
+  [class.bg-blue-200]="selected"
+  [class.bg-red-200]="conflict"
+  (click)="select.emit({ r, c })"
+>
+  {{ value || '' }}
+</div>
