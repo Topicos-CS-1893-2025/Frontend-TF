@@ -26,7 +26,7 @@ import { CageLabel } from  '../../shared/components/cage-label/cage-label';
 export class Board {
   // --- Estado del tablero ---
   state: BoardState = {
-    size: 9,
+    size: 100,
     values: Array.from({ length: 9 }, () => Array(9).fill(0)),
     cages: [],
     conflicts: new Set<string>()
