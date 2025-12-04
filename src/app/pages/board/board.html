@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center gap-6 px-6 py-8">
+<div class="flex flex-col items-center gap-6 px-6 py-8 min-h-screen bg-slate-900">
   <!-- Título -->
   <header class="text-center">
     <h2 class="text-3xl md:text-4xl font-bold text-white/90">KenKen Solver</h2>
@@ -7,11 +7,11 @@
     </p>
   </header>
 
-  <div class="flex flex-col md:flex-row items-start gap-8">
+  <div class="flex flex-col md:flex-row items-start gap-8 w-full max-w-6xl">
 
-    <!-- Panel de acciones (minimal) -->
-    <aside class="w-full md:w-64">
-      <div class="rounded-2xl bg-white/5 backdrop-blur p-4 shadow-sm">
+    <!-- Panel de acciones -->
+    <aside class="w-full md:w-64 shrink-0">
+      <div class="rounded-2xl bg-white/5 backdrop-blur p-4 shadow-sm border border-white/10">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-semibold text-white/80">Acciones</h3>
           <span class="text-xs text-white/50">{{ selectedGroup.length }} sel.</span>
@@ -20,7 +20,7 @@
         <div class="mt-3 grid gap-2">
           <button
             (click)="startSelection()"
-            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-white/90 bg-white/10 hover:bg-white/15 transition"
+            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-white/90 bg-white/10 hover:bg-white/15 transition text-left flex items-center gap-2"
           >
             ✍️ Seleccionar grupo
           </button>
@@ -29,7 +29,7 @@
             (click)="applyRules()"
             [disabled]="selectedGroup.length === 0"
             class="w-full rounded-xl px-4 py-2 text-sm font-medium text-white/90
-                   bg-white/10 hover:bg-white/15 transition
+                   bg-white/10 hover:bg-white/15 transition text-left flex items-center gap-2
                    disabled:opacity-40 disabled:cursor-not-allowed"
           >
             ⚙️ Aplicar reglas
@@ -37,30 +37,26 @@
 
           <div class="h-px bg-white/10 my-1"></div>
 
-          <button
-            (click)="createRandomCages()"
-            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-white/90 bg-white/10 hover:bg-white/15 transition"
-          >
-            🎲 Generar random
-          </button>
+          <!-- Botón Random comentado o ajustado si tienes el método en TS -->
+         <button (click)="createRandomCages()"  > 🎲 Generar random </button>
 
           <button
             (click)="solve()"
-            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-emerald-900 bg-emerald-300 hover:bg-emerald-400 transition"
+            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-emerald-900 bg-emerald-300 hover:bg-emerald-400 transition text-left flex items-center gap-2"
           >
             ✅ Mostrar solución
           </button>
 
           <button
             (click)="validate()"
-            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-blue-900 bg-blue-300 hover:bg-blue-400 transition"
+            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-blue-900 bg-blue-300 hover:bg-blue-400 transition text-left flex items-center gap-2"
           >
             🔎 Validar
           </button>
 
           <button
             (click)="clearSelection()"
-            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-rose-900 bg-rose-300 hover:bg-rose-400 transition"
+            class="w-full rounded-xl px-4 py-2 text-sm font-medium text-rose-900 bg-rose-300 hover:bg-rose-400 transition text-left flex items-center gap-2"
           >
             ❌ Limpiar selección
           </button>
@@ -68,102 +64,100 @@
       </div>
     </aside>
 
-    <!-- Tablero (sin borde exterior) -->
-    <!-- Tablero (sin borde exterior) -->
-    <section class="flex-1">
-      <div class="mx-auto grid grid-cols-9 gap-0">
-        @for (row of state.values; track $index; let r = $index) {
-          @for (cell of row; track $index; let c = $index) {
-            <div
-              class="relative flex items-center justify-center w-12 md:w-14 aspect-square
-                 text-base md:text-lg font-semibold select-none cursor-pointer
-                 bg-white hover:bg-slate-50 transition
-                 rounded-none shadow-[inset_0_0_0_1px_rgba(148,163,184,0.35)]"
-              [class.bg-amber-100]="isCellInSelectedGroup(r, c) && isSelectingGroup"
-              [class.border-t-[3px]]="isCageBorderInner(r, c, 'top')"
-              [class.border-l-[3px]]="isCageBorderInner(r, c, 'left')"
-              [class.border-black/80]="isCageBorderInner(r, c, 'top') || isCageBorderInner(r, c, 'left')"
-              (click)="toggleCellInGroup(r, c)"
-              >
-              <!-- Valor -->
-            <span class="text-slate-700">
-<input
-  type="number"
-  min="1"
-  [max]="state.size"
-  [(ngModel)]="state.values[r][c]"
-  (blur)="validateCell(r, c)"
-  [readonly]="isCellValid(r,c) || solution !== null"
-  class="w-full h-full text-center outline-none font-semibold
-         text-base md:text-lg rounded"
-  [ngClass]="{
-    'bg-green-200': isCellValid(r,c) && !solution,
-    'bg-red-200': isCellInvalid(r,c) && !solution
-  }"
-  [value]="solution ? solution[r][c] : state.values[r][c]"
-/>
-
-            </span>
-
-            <!-- Label del cage (solo en celda arriba-izquierda del grupo) -->
-            <div
-              *ngIf="isCageLabelCell(r,c)"
-              class="absolute top-0.5 left-1 text-[10px] md:text-[11px] font-bold text-slate-500 select-none"
+    <!-- Tablero Dinámico -->
+    <section class="flex-1 overflow-auto p-1 bg-slate-800/50 rounded-xl">
+      <!-- Grid Container: Usamos style.gridTemplateColumns para adaptarnos al tamaño N -->
+      <div 
+        class="grid gap-0 border-2 border-slate-700 mx-auto shadow-2xl bg-slate-900"
+        [style.grid-template-columns]="'repeat(' + state.size + ', minmax(3.5rem, 1fr))'"
+      >
+        @for (row of state.values; track r; let r = $index) {
+          @for (val of row; track c; let c = $index) {
+            <!-- Usamos el nuevo componente app-cell -->
+            <app-cell
+              [value]="state.values[r][c]"
+              [size]="state.size"
+              [selected]="isCellInSelectedGroup(r, c)"
+              [invalid]="isCellInvalid(r, c)"
+              [valid]="isCellValid(r, c)"
+              [readonly]="solution !== null"
+              [cageColor]="getCageColor(r, c)"
+              [borders]="getBorders(r, c)"
+              (valueChange)="state.values[r][c] = $event; validateCell(r, c)"
+              (select)="toggleCellInGroup(r, c)"
             >
-              {{ findCage(r,c)?.target }}{{ findCage(r,c)?.op !== '=' ? findCage(r,c)?.op : '' }}
-            </div>
-            </div>
+              <!-- Lógica para mostrar etiquetas (Labels) dentro de la celda -->
+              <div class="absolute top-0.5 left-1 flex flex-col gap-0.5 pointer-events-none z-20">
+                @for (cage of getCages(r, c); track cage.id) {
+                  <!-- Solo mostramos la etiqueta si esta es la primera celda de esa jaula -->
+                  @if (cage.cells[0].r === r && cage.cells[0].c === c) {
+                    <app-cage-label 
+                      [target]="cage.target" 
+                      [op]="cage.op">
+                    </app-cage-label>
+                  }
+                }
+              </div>
+            </app-cell>
           }
         }
       </div>
 
-      <!-- Nota UX -->
-      <p class="mt-3 text-xs text-white/50">
-        Tip: Activa “Seleccionar grupo”, haz clic en celdas contiguas y luego “Aplicar reglas”.
+      <p class="mt-4 text-center text-xs text-white/40">
+        Tip: Puedes crear grupos separados seleccionando celdas no contiguas.
       </p>
     </section>
   </div>
 </div>
 
-<!-- Modal minimal -->
-<div *ngIf="showModal" class="fixed inset-0 z-50 grid place-items-center bg-black/40 px-4">
-  <div class="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl">
-    <h3 class="text-lg font-semibold text-slate-800">Crear cage</h3>
+<!-- Modal para Crear Jaula -->
+<div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+  <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+    <h3 class="text-lg font-bold text-slate-800">Crear Regla</h3>
     <p class="text-xs text-slate-500 mt-1">{{ selectedGroup.length }} celdas seleccionadas</p>
 
-    <div class="mt-4 grid gap-3">
-      <label class="text-sm font-medium text-slate-700">Operación</label>
-      <select
-        [(ngModel)]="newOp"
-        class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-      >
-        <option value="+">Suma (+)</option>
-        <option value="-">Resta (−) · solo 2 celdas</option>
-        <option value="×">Multiplicación (×)</option>
-        <option value="÷">División (÷) · solo 2 celdas</option>
-        <option value="=">Número fijo (=) · 1 celda</option>
-      </select>
+    <div class="mt-5 grid gap-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">Operación</label>
+        <select
+          [(ngModel)]="newOp"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+        >
+          <option value="+">Suma (+)</option>
+          <option value="-">Resta (−)</option>
+          <option value="×">Multiplicación (×)</option>
+          <option value="÷">División (÷)</option>
+          <option value="=">Igualdad (=)</option>
+          <option value="mod">Módulo (Mod)</option>
+          <option value="^">Potencia (^)</option>
+          <option value="range">Rango (Max-Min)</option>
+          <option value="sum_sq">Suma Cuadrados</option>
+        </select>
+      </div>
 
-      <label class="text-sm font-medium text-slate-700">Resultado</label>
-      <input
-        [(ngModel)]="newTarget"
-        type="number"
-        class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-      />
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">Resultado Objetivo</label>
+        <input
+          [(ngModel)]="newTarget"
+          type="number"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          placeholder="Ej. 12"
+        />
+      </div>
     </div>
 
-    <div class="mt-5 flex justify-end gap-2">
+    <div class="mt-6 flex justify-end gap-3">
       <button
         (click)="cancelCage()"
-        class="rounded-xl px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200"
+        class="rounded-xl px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
       >
         Cancelar
       </button>
       <button
-        (click)="addCage(newOp, newTarget)"
-        class="rounded-xl px-4 py-2 text-sm font-medium text-white bg-slate-900 hover:bg-black"
+        (click)="addCage()"
+        class="rounded-xl px-5 py-2 text-sm font-medium text-white bg-slate-900 hover:bg-black shadow-lg shadow-slate-900/20 transition"
       >
-        Guardar
+        Guardar Regla
       </button>
     </div>
   </div>

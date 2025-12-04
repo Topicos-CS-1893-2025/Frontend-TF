@@ -6,7 +6,7 @@ export interface Pos {
 export interface Cage {
   id: string;
   target: number;
-  op: '+' | '-' | '×' | '÷' | '=';
+  op: '+' | '-' | '×' | '÷' | '=' | 'mod' | '^' | 'range' | 'sum_sq';
   cells: Pos[];
 }
 

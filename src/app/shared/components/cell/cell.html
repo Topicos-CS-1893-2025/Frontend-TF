@@ -1,9 +1,32 @@
 <div
-  class="flex h-10 w-10 items-center justify-center border text-lg cursor-pointer
-  transition-colors duration-150 hover:bg-blue-50"
-  [class.bg-blue-200]="selected"
-  [class.bg-red-200]="conflict"
-  (click)="select.emit({ r, c })"
+  class="relative flex items-center justify-center w-full h-full aspect-square transition-all duration-200"
+  [style.background-color]="cageColor"
+  [class.bg-amber-100]="selected"
+  [class.border-t-[3px]]="borders.top"
+  [class.border-r-[3px]]="borders.right"
+  [class.border-b-[3px]]="borders.bottom"
+  [class.border-l-[3px]]="borders.left"
+  [class.border-slate-800]="true"
+  (click)="select.emit()"
 >
-  {{ value || '' }}
+  <!-- Input invisible que cubre todo -->
+  <input
+    type="number"
+    min="1"
+    [max]="size"
+    [ngModel]="value === 0 ? '' : value"
+    (ngModelChange)="onInput($event)"
+    (blur)="blur.emit()"
+    [readonly]="readonly"
+    class="w-full h-full bg-transparent text-center font-bold text-lg outline-none
+           appearance-none m-0 p-0 z-10 focus:bg-white/40 transition-colors"
+    [ngClass]="{
+      'text-emerald-700': valid && value > 0 && !readonly,
+      'text-rose-600': invalid && !readonly,
+      'text-slate-800': readonly || (!valid && !invalid)
+    }"
+  />
+  
+  <!-- Slot para las etiquetas (Labels) -->
+  <ng-content></ng-content>
 </div>
