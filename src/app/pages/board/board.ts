@@ -27,7 +27,7 @@ export class Board {
   // --- Estado del tablero ---
   state: BoardState = {
     size: 100,
-    values: Array.from({ length: 9 }, () => Array(9).fill(0)),
+    values: Array.from({ length: 100 }, () => Array(100).fill(0)),
     cages: [],
     conflicts: new Set<string>()
   };
