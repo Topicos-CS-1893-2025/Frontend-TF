@@ -6,7 +6,7 @@ import { BoardState, Cage, SolveResponse } from '../shared/models/kenken';
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   // Asegúrate que esta URL sea correcta (sin la barra al final a veces ayuda)
-  private baseUrl = 'http://localhost:8000'; 
+  private baseUrl = 'https://backend-tf-tj5e.onrender.com'; 
 
   constructor(private http: HttpClient) {}
 
